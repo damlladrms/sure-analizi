@@ -1,0 +1,25 @@
+import time
+import requests
+
+def keep_alive(url, interval=300):
+    """
+    Uygulamayı sürekli açık tutmak için belirli aralıklarla HTTP isteği gönderir.
+    :param url: Sürekli açık tutulacak uygulamanın URL'si
+    :param interval: İstekler arasındaki süre (saniye cinsinden, varsayılan 300)
+    """
+    while True:
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                print(f"[{time.ctime()}] Uygulama başarılı şekilde kontrol edildi.")
+            else:
+                print(f"[{time.ctime()}] Uygulamaya erişimde sorun: {response.status_code}")
+        except Exception as e:
+            print(f"[{time.ctime()}] Hata oluştu: {e}")
+        time.sleep(interval)
+
+if __name__ == "__main__":
+    # Streamlit uygulamanızın URL'sini buraya ekleyin
+    app_url = "https://sure-analizi.streamlit.app"
+    print(f"Ping botu başlatıldı. Uygulama URL'si: {app_url}")
+    keep_alive(app_url)
